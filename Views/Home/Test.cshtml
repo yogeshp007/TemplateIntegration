@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            getdata();
+
+            $("#btnAdd").click(function () {
+
+                var uname = $("#txtName").val();
+
+                $.ajax({
+                    url: "https://localhost:44308/api/demo/postdata?name="+uname,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#content").empty();
+                        $.each(data, function (i) {
+                           
+                            $("#content").append("<h2>" + data[i] + "</h2>");
+                        });
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+
+        });
+
+        function getdata() {
+            $.ajax({
+                url: "https://localhost:44308/api/demo/getstringdata",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i) {
+                        $("#content").append("<h2>" + data[i] + "</h2>");
+                    });
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <input type="text" id="txtName" value="" />
+            </td>
+            <td>
+                <button id="btnAdd">Add</button>
+            </td>
+        </tr>
+    </table>
+
+    <div id="content">
+
+    </div>
+</body>
+</html>
